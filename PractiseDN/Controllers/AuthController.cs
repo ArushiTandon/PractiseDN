@@ -21,6 +21,16 @@ namespace PractiseDN.Controllers
 
         public async Task<IActionResult> CreateUser(UserDto dto)
         {
+
+            if(dto == null || string.IsNullOrEmpty(dto.Username) || string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
+            {
+                ViewBag.ErrorMessage = "Fields cannot be empty.";
+                return View("Register");
+            }
+            {
+                ViewBag.ErrorMessage = "All fields are required.";
+                return View("Register");
+            }
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if(existingUser == null)
@@ -43,6 +53,23 @@ namespace PractiseDN.Controllers
 
                 TempData["SuccessMessage"] = "User Created Successfully. Please Login.";
                 return RedirectToAction("Login");
+        }
+
+        public async Task<IActionResult> LoginUserAsync(UserDto dto)
+        {
+            var isUserValid = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
+
+            if (isUserValid == null)
+            {
+                ViewBag.ErrorMessage = "Invalid email or password.";
+                return View("Login");
+
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Login Successful.";
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }
