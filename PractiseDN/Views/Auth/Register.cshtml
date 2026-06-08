@@ -1,4 +1,9 @@
-﻿<form class="w-50 mx-auto mt-5 p-4 border rounded shadow">
+﻿@using PractiseDN.Dto
+@model UserDto
+
+<div>@ViewBag.ErrorMessage</div>
+
+<form class="w-50 mx-auto mt-5 p-4 border rounded shadow" asp-action="CreateUser"> 
 
     <h3 class="text-center mb-4">Registration</h3>
 
@@ -8,6 +13,7 @@
                class="form-control"
                id="username"
                name="username"
+               asp-for="Username"
                placeholder="Enter username"
                required>
     </div>
@@ -18,6 +24,7 @@
                class="form-control"
                id="email"
                name="email"
+               asp-for="Email"
                placeholder="Enter email"
                required>
     </div>
@@ -28,14 +35,13 @@
                class="form-control"
                id="password"
                name="password"
+               asp-for="Password"
                placeholder="Enter password"
                required>
     </div>
 
     <div class="d-grid">
-        <button type="submit" class="btn btn-primary">
-            Register
-        </button>
+        <input type="submit" class="btn btn-primary" value="Submit">
     </div>
 
 </form>
