@@ -1,0 +1,32 @@
+﻿<form class="w-50 mx-auto mt-5 p-4 border rounded shadow">
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="text"
+               class="form-control"
+               id="email"
+               name="email"
+               placeholder="Enter email"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password"
+               class="form-control"
+               id="password"
+               name="password"
+               placeholder="Enter password"
+               required>
+    </div>
+
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">
+            Login
+        </button>
+    </div>
+
+</form>
+@* New User? <a href="/Auth/Register"> Register Here</a>  *@
+New User? <a asp-action="Register"> Register Here</a>
+
