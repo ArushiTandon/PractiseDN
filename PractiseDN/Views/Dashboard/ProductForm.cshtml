@@ -1,4 +1,9 @@
-﻿<form class="w-50 mx-auto mt-5 p-4 border rounded shadow">
+﻿@using PractiseDN.Dto
+@model ProductDto
+
+<div>@ViewBag.ErrorMessage</div>
+
+<form class="w-50 mx-auto mt-5 p-4 border rounded shadow" asp-action="CreateProduct">
 
     <h3 class="text-center mb-4">Add Product</h3>
 
@@ -8,6 +13,7 @@
                class="form-control"
                id="name"
                name="name"
+               asp-for="Name"
                placeholder="Enter product name"
                required>
     </div>
@@ -17,6 +23,7 @@
         <textarea class="form-control"
                   id="description"
                   name="description"
+                  asp-for="Description"
                   rows="3"
                   placeholder="Enter product description"
                   required></textarea>
@@ -28,6 +35,7 @@
                class="form-control"
                id="price"
                name="price"
+               asp-for="Price"
                placeholder="Enter product price"
                required>
     </div>
@@ -37,6 +45,7 @@
         <select class="form-select"
                 id="productType"
                 name="productType"
+                asp-for="ProductType"
                 required>
             <option value="">Select Product Type</option>
             <option value="Electronics">Electronics</option>
