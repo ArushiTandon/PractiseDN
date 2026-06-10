@@ -35,13 +35,13 @@
                         <td>@product.ProductType</td>
 
                         <td>
-                            <a class="btn btn-primary btn-sm" asp-action="EditProduct">
+                            <a class="btn btn-primary btn-sm" asp-action="EditProduct" asp-route-productid= "@product.Id">
                                 Edit
                             </a>
 
-                            <a class="btn btn-danger btn-sm">
+                            <a class="btn btn-danger btn-sm" asp-action="DeleteProduct" asp-route-productid="@product.Id">
                                 Delete
-                            </a asp-action="DeleteProduct" asp-route-productid= "@product.Id">
+                            </a >
                         </td>
                     </tr>
                 }

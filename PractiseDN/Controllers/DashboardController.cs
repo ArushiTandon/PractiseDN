@@ -26,11 +26,30 @@ namespace PractiseDN.Controllers
         {
             if (dto == null)
             {
-                ViewBag.Error = "Invalid product data.";
-                return View("ProductForm");
-
+                ViewBag.ErrorMessage = "Invalid product data.";
+                return View("ProductForm", new ProductDto());
             }
 
+            if (dto.Id > 0)
+            {
+                // Edit existing product
+                var existing = await context.Products.FirstOrDefaultAsync(x => x.Id == dto.Id);
+                if (existing == null)
+                {
+                    ViewBag.ErrorMessage = "Product not found.";
+                    return View("ProductForm", dto);
+                }
+
+                existing.Name = dto.Name;
+                existing.Description = dto.Description;
+                existing.Price = dto.Price;
+                existing.ProductType = dto.ProductType;
+
+                await context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            // Create new product
             context.Products.Add(new Models.Product
             {
                 Name = dto.Name,
@@ -43,7 +62,7 @@ namespace PractiseDN.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> DeleteProductAsync (int productid)
+        public async Task<IActionResult> DeleteProduct(int productid)
         {
             var product = await context.Products.FirstOrDefaultAsync(x => x.Id == productid);
 
@@ -54,5 +73,27 @@ namespace PractiseDN.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        public async Task<IActionResult> EditProduct(int productid)
+        {
+            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == productid);
+
+            if (product == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var dto = new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ProductType = product.ProductType
+            };
+
+            return View("ProductForm", dto);
+        }
     }
 }
