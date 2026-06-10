@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PractiseDN.Data;
 using PractiseDN.Dto;
 using PractiseDN.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PractiseDN.Controllers
 {
@@ -67,10 +71,19 @@ namespace PractiseDN.Controllers
             }
             else
             {
-                if (isUserValid.Password == dto.Password) {
+                if (isUserValid.Password == dto.Password) 
+                {
 
-                TempData["SuccessMessage"] = "Login Successful.";
-                return RedirectToAction("Index", "Dashboard");
+                var token = GenerateJwtToken(dto);
+                    Response.Cookies.Append("jwtToken", token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddHours(1)
+                    });
+                    return RedirectToAction("Index", "Dashboard");
+
                 }
                 else
                 {
@@ -79,6 +92,26 @@ namespace PractiseDN.Controllers
                 }
             }
             
+        }
+
+        private string GenerateJwtToken(UserDto dto)
+        {
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("SecretKey");
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Email, dto.Email)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = jwtHandler.CreateToken(tokenDescriptor);
+
+            return jwtHandler.WriteToken(token);
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PractiseDN.Data;
 using PractiseDN.Dto;
 
 namespace PractiseDN.Controllers
 {
+    [Authorize]
     public class DashboardController(AppDbContext context) : Controller
     {
         public IActionResult Index()
