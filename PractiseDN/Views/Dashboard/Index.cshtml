@@ -1,0 +1,54 @@
+﻿@using PractiseDN.Dto
+@model List<ProductDto>
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Product Dashboard</h2>
+
+        <a class="btn btn-success" asp-action="ProductForm">
+            Add Product
+        </a>
+    </div>
+
+    <table class="table table-bordered table-hover shadow">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Product Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if(Model.Count > 0)
+            {
+                foreach(var product in Model)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td>$@product.Price</td>
+                        <td>@product.ProductType</td>
+
+                        <td>
+                            <button class="btn btn-primary btn-sm">
+                                Edit
+                            </button>
+
+                            <button class="btn btn-danger btn-sm">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

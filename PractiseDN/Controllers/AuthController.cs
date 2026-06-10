@@ -55,10 +55,10 @@ namespace PractiseDN.Controllers
                 return RedirectToAction("Login");
         }
 
-        public async Task<IActionResult> LoginUserAsync(UserDto dto)
+        public async Task<IActionResult> LoginUser(UserDto dto)
         {
             var isUserValid = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email && u.Password == dto.Password);
-
+           
             if (isUserValid == null)
             {
                 ViewBag.ErrorMessage = "Invalid email or password.";
@@ -67,9 +67,18 @@ namespace PractiseDN.Controllers
             }
             else
             {
+                if (isUserValid.Password == dto.Password) {
+
                 TempData["SuccessMessage"] = "Login Successful.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Invalid email or password.";
+                    return View("Login");
+                }
             }
+            
         }
     }
 }
