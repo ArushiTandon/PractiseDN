@@ -31,10 +31,7 @@ namespace PractiseDN.Controllers
                 ViewBag.ErrorMessage = "Fields cannot be empty.";
                 return View("Register");
             }
-            {
-                ViewBag.ErrorMessage = "All fields are required.";
-                return View("Register");
-            }
+            
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if(existingUser == null)

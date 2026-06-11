@@ -8,7 +8,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
 
 app.UseStaticFiles();
 
@@ -57,6 +56,8 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
+
+var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
